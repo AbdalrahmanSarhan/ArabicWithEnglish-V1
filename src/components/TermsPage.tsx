@@ -10,25 +10,25 @@ export const TermsPage = () => {
   const sections = [{
     icon: <Book className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'استخدام المنصة' : 'Platform Usage',
-    content: isRTL ? 'باستخدام منصتنا، أنت توافق على الامتثال لجميع القوانين المعمول بها واستخدام الخدمة بشكل مسؤول.' : 'By using our platform, you agree to comply with all applicable laws and use the service responsibly.'
+    content: isRTL ? 'باستخدام منصتنا، أنت توافق على الامتثال لجميع القوانين المعمول بها واستخدام الخدمة بشكل مسؤول. يجب عليك الامتناع عن أي نشاط قد يضر بالمنصة أو المستخدمين الآخرين.' : 'By using our platform, you agree to comply with all applicable laws and use the service responsibly. You must refrain from any activity that may harm the platform or other users.'
   }, {
     icon: <Users className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'حسابات المستخدمين' : 'User Accounts',
-    content: isRTL ? 'أنت مسؤول عن الحفاظ على سرية معلومات حسابك وجميع الأنشطة التي تحدث تحت حسابك.' : 'You are responsible for maintaining the confidentiality of your account information and all activities that occur under your account.'
+    content: isRTL ? 'أنت مسؤول عن الحفاظ على سرية معلومات حسابك وجميع الأنشطة التي تحدث تحت حسابك. يجب إبلاغنا فورًا عن أي استخدام غير مصرح به لحسابك.' : 'You are responsible for maintaining the confidentiality of your account information and all activities that occur under your account. You must notify us immediately of any unauthorized use of your account.'
   }, {
     icon: <Award className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'الملكية الفكرية' : 'Intellectual Property',
-    content: isRTL ? 'جميع المحتوى على المنصة محمي بموجب حقوق النشر والملكية الفكرية.' : 'All content on the platform is protected by copyright and intellectual property rights.'
+    content: isRTL ? 'جميع المحتوى على المنصة محمي بموجب حقوق النشر والملكية الفكرية. لا يجوز نسخ أو توزيع أو تعديل المحتوى دون إذن صريح منا.' : 'All content on the platform is protected by copyright and intellectual property rights. Content may not be copied, distributed, or modified without our express permission.'
   }, {
     icon: <AlertCircle className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'إنهاء الخدمة' : 'Service Termination',
-    content: isRTL ? 'نحتفظ بالحق في إنهاء أو تعليق حسابك في حالة انتهاك هذه الشروط.' : 'We reserve the right to terminate or suspend your account in case of violation of these terms.'
+    content: isRTL ? 'نحتفظ بالحق في إنهاء أو تعليق حسابك في حالة انتهاك هذه الشروط. في حالة الإنهاء، سيتم إخطارك عبر البريد الإلكتروني المسجل.' : 'We reserve the right to terminate or suspend your account in case of violation of these terms. In case of termination, you will be notified via your registered email.'
   }];
-  return <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-light-300 dark:from-dark-100 dark:via-dark-200 dark:to-dark-300">
+  return <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-light-300 dark:from-dark-100 dark:via-dark-200 dark:to-dark-300" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
         <div className="max-w-4xl mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 mb-6 sm:mb-8 text-primary-600 dark:text-primary-400 hover:underline">
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
             <span className="text-sm sm:text-base">
               {isRTL ? 'العودة إلى الصفحة الرئيسية' : 'Back to home'}
             </span>
@@ -54,7 +54,7 @@ export const TermsPage = () => {
             </div>
             <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                {isRTL ? 'تم تحديث شروط الخدمة هذه في 15 مايو 2025. باستخدام خدماتنا، فإنك توافق على هذه الشروط.' : 'These terms of service were last updated on May 15, 2025. By using our services, you agree to these terms.'}
+                {isRTL ? 'تم تحديث شروط الخدمة هذه في 15 مايو 2025. باستخدام خدماتنا، فإنك توافق على هذه الشروط. نحتفظ بالحق في تحديث هذه الشروط عند الضرورة.' : 'These terms of service were last updated on May 15, 2025. By using our services, you agree to these terms. We reserve the right to update these terms when necessary.'}
               </p>
             </div>
           </div>

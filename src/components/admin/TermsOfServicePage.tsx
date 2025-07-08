@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Plus, Search, Edit, Trash, Save, X, Eye, ArrowUp, ArrowDown } from 'lucide-react';
+import { Plus, Search, Edit, Trash, Save, X, Eye, ArrowUp, ArrowDown, Globe, Check, FileText, AlertCircle, Book, Users } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Table, Column } from '../ui/Table';
 import { TablePagination } from '../ui/TablePagination';
 import { Badge } from '../ui/Badge';
+import { useLanguage } from '../../contexts/LanguageContext';
 interface TermsSection {
   id: string;
   title: string;
@@ -11,43 +12,67 @@ interface TermsSection {
   order: number;
   lastUpdated: string;
   status: 'published' | 'draft';
+  language?: 'en' | 'ar';
+  category: 'usage' | 'accounts' | 'intellectual' | 'termination';
 }
 export const TermsOfServicePage = () => {
+  const {
+    language
+  } = useLanguage();
   const [sections, setSections] = useState<TermsSection[]>([{
     id: '1',
     title: 'Platform Usage',
     content: 'By using our platform, you agree to comply with all applicable laws and use the service responsibly.',
     order: 1,
     lastUpdated: '2024-05-15',
-    status: 'published'
+    status: 'published',
+    language: 'en',
+    category: 'usage'
   }, {
     id: '2',
     title: 'User Accounts',
     content: 'You are responsible for maintaining the confidentiality of your account information and all activities that occur under your account.',
     order: 2,
     lastUpdated: '2024-05-15',
-    status: 'published'
+    status: 'published',
+    language: 'en',
+    category: 'accounts'
   }, {
     id: '3',
     title: 'Intellectual Property',
     content: 'All content on the platform is protected by copyright and intellectual property rights.',
     order: 3,
     lastUpdated: '2024-05-15',
-    status: 'published'
+    status: 'published',
+    language: 'en',
+    category: 'intellectual'
   }, {
     id: '4',
     title: 'Service Termination',
     content: 'We reserve the right to terminate or suspend your account in case of violation of these terms.',
     order: 4,
     lastUpdated: '2024-05-15',
-    status: 'published'
+    status: 'published',
+    language: 'en',
+    category: 'termination'
   }, {
     id: '5',
-    title: 'Payment Terms',
-    content: 'All payments are processed securely. Refunds are subject to our refund policy.',
-    order: 5,
-    lastUpdated: '2024-05-10',
-    status: 'draft'
+    title: 'استخدام المنصة',
+    content: 'باستخدام منصتنا، أنت توافق على الامتثال لجميع القوانين المعمول بها واستخدام الخدمة بشكل مسؤول.',
+    order: 1,
+    lastUpdated: '2024-05-15',
+    status: 'published',
+    language: 'ar',
+    category: 'usage'
+  }, {
+    id: '6',
+    title: 'حسابات المستخدمين',
+    content: 'أنت مسؤول عن الحفاظ على سرية معلومات حسابك وجميع الأنشطة التي تحدث تحت حسابك.',
+    order: 2,
+    lastUpdated: '2024-05-15',
+    status: 'published',
+    language: 'ar',
+    category: 'accounts'
   }]);
   const [editingSection, setEditingSection] = useState<TermsSection | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
@@ -56,15 +81,25 @@ export const TermsOfServicePage = () => {
     content: '',
     order: sections.length + 1,
     lastUpdated: new Date().toISOString().split('T')[0],
-    status: 'draft'
+    status: 'draft',
+    language: language as 'en' | 'ar',
+    category: 'usage'
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string>('order');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>('asc');
+  const [languageFilter, setLanguageFilter] = useState<'all' | 'en' | 'ar'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'usage' | 'accounts' | 'intellectual' | 'termination'>('all');
   const itemsPerPage = 5;
-  // Filter and sort sections
-  const filteredSections = sections.filter(section => section.title.toLowerCase().includes(searchQuery.toLowerCase()) || section.content.toLowerCase().includes(searchQuery.toLowerCase())).sort((a, b) => {
+  const filteredSections = sections.filter(section => {
+    const matchesSearch = section.title.toLowerCase().includes(searchQuery.toLowerCase()) || section.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesLanguage = languageFilter === 'all' || section.language === languageFilter;
+    const matchesStatus = statusFilter === 'all' || section.status === statusFilter;
+    const matchesCategory = categoryFilter === 'all' || section.category === categoryFilter;
+    return matchesSearch && matchesLanguage && matchesStatus && matchesCategory;
+  }).sort((a, b) => {
     if (sortColumn === 'order') {
       return sortDirection === 'asc' ? a.order - b.order : b.order - a.order;
     } else if (sortColumn === 'title') {
@@ -101,7 +136,9 @@ export const TermsOfServicePage = () => {
       content: '',
       order: sections.length + 2,
       lastUpdated: new Date().toISOString().split('T')[0],
-      status: 'draft'
+      status: 'draft',
+      language: language as 'en' | 'ar',
+      category: 'usage'
     });
     setIsAddingNew(false);
   };
@@ -138,6 +175,41 @@ export const TermsOfServicePage = () => {
     updatedSections[sectionIndex + 1].order = currentOrder;
     setSections(updatedSections);
   };
+  const handleToggleStatus = (id: string) => {
+    setSections(sections.map(section => section.id === id ? {
+      ...section,
+      status: section.status === 'published' ? 'draft' : 'published',
+      lastUpdated: new Date().toISOString().split('T')[0]
+    } : section));
+  };
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'usage':
+        return <FileText className="w-4 h-4" />;
+      case 'accounts':
+        return <Users className="w-4 h-4" />;
+      case 'intellectual':
+        return <Book className="w-4 h-4" />;
+      case 'termination':
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <FileText className="w-4 h-4" />;
+    }
+  };
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case 'usage':
+        return 'Platform Usage';
+      case 'accounts':
+        return 'User Accounts';
+      case 'intellectual':
+        return 'Intellectual Property';
+      case 'termination':
+        return 'Service Termination';
+      default:
+        return category;
+    }
+  };
   const columns: Column<TermsSection>[] = [{
     key: 'order',
     header: '#',
@@ -151,11 +223,21 @@ export const TermsOfServicePage = () => {
           {section.title}
         </div>
   }, {
-    key: 'content',
-    header: 'Content',
-    render: section => <div className="max-w-md truncate text-gray-600 dark:text-gray-400">
-          {section.content}
-        </div>
+    key: 'category',
+    header: 'Category',
+    sortable: true,
+    render: section => <Badge variant="secondary" size="sm" className="flex items-center gap-1">
+          {getCategoryIcon(section.category)}
+          <span>{getCategoryName(section.category)}</span>
+        </Badge>
+  }, {
+    key: 'language',
+    header: 'Language',
+    sortable: true,
+    render: section => <Badge variant={section.language === 'en' ? 'secondary' : 'warning'} size="sm" className="flex items-center gap-1">
+          <Globe className="w-3 h-3" />
+          <span>{section.language === 'en' ? 'English' : 'Arabic'}</span>
+        </Badge>
   }, {
     key: 'status',
     header: 'Status',
@@ -178,6 +260,9 @@ export const TermsOfServicePage = () => {
           <button onClick={() => handleMoveDown(section.id)} className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" title="Move Down" disabled={section.order === sections.length}>
             <ArrowDown className="w-4 h-4" />
           </button>
+          <button onClick={() => handleToggleStatus(section.id)} className={`p-1 ${section.status === 'published' ? 'text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300' : 'text-yellow-500 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300'}`} title={section.status === 'published' ? 'Change to Draft' : 'Publish Section'}>
+            <Check className="w-4 h-4" />
+          </button>
           <button onClick={() => setEditingSection(section)} className="p-1 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="Edit">
             <Edit className="w-4 h-4" />
           </button>
@@ -187,7 +272,7 @@ export const TermsOfServicePage = () => {
         </div>
   }];
   return <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Terms of Service Management
         </h1>
@@ -196,14 +281,89 @@ export const TermsOfServicePage = () => {
           Add Section
         </button>
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="p-4 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30">
+            <FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Total Sections
+            </div>
+            <div className="text-xl font-bold text-gray-900 dark:text-white">
+              {sections.length}
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-green-50 dark:bg-green-900/30">
+            <Check className="w-5 h-5 text-green-600 dark:text-green-400" />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Published
+            </div>
+            <div className="text-xl font-bold text-gray-900 dark:text-white">
+              {sections.filter(section => section.status === 'published').length}
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary-50 dark:bg-primary-900/30">
+            <Globe className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              English
+            </div>
+            <div className="text-xl font-bold text-gray-900 dark:text-white">
+              {sections.filter(section => section.language === 'en').length}
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4 flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-900/30">
+            <Globe className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Arabic
+            </div>
+            <div className="text-xl font-bold text-gray-900 dark:text-white">
+              {sections.filter(section => section.language === 'ar').length}
+            </div>
+          </div>
+        </Card>
+      </div>
       <Card className="p-5">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Terms of Service Sections
           </h2>
-          <div className="relative w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <input type="text" placeholder="Search sections..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input type="text" placeholder="Search sections..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <select value={languageFilter} onChange={e => setLanguageFilter(e.target.value as 'all' | 'en' | 'ar')} className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <option value="all">All Languages</option>
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+              </select>
+              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as 'all' | 'published' | 'draft')} className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <option value="all">All Statuses</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+              <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value as 'all' | 'usage' | 'accounts' | 'intellectual' | 'termination')} className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <option value="all">All Categories</option>
+                <option value="usage">Platform Usage</option>
+                <option value="accounts">User Accounts</option>
+                <option value="intellectual">Intellectual Property</option>
+                <option value="termination">Service Termination</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="overflow-hidden">
@@ -215,7 +375,6 @@ export const TermsOfServicePage = () => {
           </div>
         </div>
       </Card>
-      {/* Add New Section Form */}
       {isAddingNew && <Card className="p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -244,26 +403,54 @@ export const TermsOfServicePage = () => {
             content: e.target.value
           })} rows={4} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="Enter section content"></textarea>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Order
-              </label>
-              <input type="number" value={newSection.order} onChange={e => setNewSection({
-            ...newSection,
-            order: parseInt(e.target.value) || 0
-          })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Status
-              </label>
-              <select value={newSection.status} onChange={e => setNewSection({
-            ...newSection,
-            status: e.target.value as 'published' | 'draft'
-          })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-              </select>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Order
+                </label>
+                <input type="number" value={newSection.order} onChange={e => setNewSection({
+              ...newSection,
+              order: parseInt(e.target.value) || 0
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Category
+                </label>
+                <select value={newSection.category} onChange={e => setNewSection({
+              ...newSection,
+              category: e.target.value as 'usage' | 'accounts' | 'intellectual' | 'termination'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="usage">Platform Usage</option>
+                  <option value="accounts">User Accounts</option>
+                  <option value="intellectual">Intellectual Property</option>
+                  <option value="termination">Service Termination</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Language
+                </label>
+                <select value={newSection.language} onChange={e => setNewSection({
+              ...newSection,
+              language: e.target.value as 'en' | 'ar'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Status
+                </label>
+                <select value={newSection.status} onChange={e => setNewSection({
+              ...newSection,
+              status: e.target.value as 'published' | 'draft'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
             </div>
             <div className="flex justify-end gap-2">
               <button onClick={() => setIsAddingNew(false)} className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
@@ -276,7 +463,6 @@ export const TermsOfServicePage = () => {
             </div>
           </div>
         </Card>}
-      {/* Edit Section Form */}
       {editingSection && <Card className="p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -305,26 +491,54 @@ export const TermsOfServicePage = () => {
             content: e.target.value
           })} rows={4} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"></textarea>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Order
-              </label>
-              <input type="number" value={editingSection.order} onChange={e => setEditingSection({
-            ...editingSection,
-            order: parseInt(e.target.value) || 0
-          })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Status
-              </label>
-              <select value={editingSection.status} onChange={e => setEditingSection({
-            ...editingSection,
-            status: e.target.value as 'published' | 'draft'
-          })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-              </select>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Order
+                </label>
+                <input type="number" value={editingSection.order} onChange={e => setEditingSection({
+              ...editingSection,
+              order: parseInt(e.target.value) || 0
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Category
+                </label>
+                <select value={editingSection.category} onChange={e => setEditingSection({
+              ...editingSection,
+              category: e.target.value as 'usage' | 'accounts' | 'intellectual' | 'termination'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="usage">Platform Usage</option>
+                  <option value="accounts">User Accounts</option>
+                  <option value="intellectual">Intellectual Property</option>
+                  <option value="termination">Service Termination</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Language
+                </label>
+                <select value={editingSection.language || 'en'} onChange={e => setEditingSection({
+              ...editingSection,
+              language: e.target.value as 'en' | 'ar'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Status
+                </label>
+                <select value={editingSection.status} onChange={e => setEditingSection({
+              ...editingSection,
+              status: e.target.value as 'published' | 'draft'
+            })} className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
             </div>
             <div className="flex justify-end gap-2">
               <button onClick={() => setEditingSection(null)} className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
@@ -337,22 +551,26 @@ export const TermsOfServicePage = () => {
             </div>
           </div>
         </Card>}
-      {/* Preview Card */}
       <Card className="p-5">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Preview
+            Preview ({language === 'en' ? 'English' : 'Arabic'})
           </h2>
           <Badge variant="secondary" size="sm">
             Last Updated: {new Date().toLocaleDateString()}
           </Badge>
         </div>
         <div className="space-y-6">
-          {sections.filter(section => section.status === 'published').sort((a, b) => a.order - b.order).map(section => <div key={section.id} className="space-y-2">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                  {section.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+          {sections.filter(section => section.status === 'published' && section.language === language).sort((a, b) => a.order - b.order).map(section => <div key={section.id} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
+                    {getCategoryIcon(section.category)}
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                    {section.title}
+                  </h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 ml-8">
                   {section.content}
                 </p>
               </div>)}

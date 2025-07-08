@@ -28,40 +28,40 @@ export const ContactPage = () => {
     content: isRTL ? 'عمان, الاردن' : 'Amman, Jordan'
   }];
   const socialMedia = [{
-    name: 'Instagram',
+    name: isRTL ? 'انستجرام' : 'Instagram',
     icon: <Instagram className="w-6 h-6" />,
     url: 'https://www.instagram.com/arabicwithenglish/',
     color: 'bg-gradient-to-r from-purple-500 to-pink-500',
     textColor: 'text-white'
   }, {
-    name: 'Facebook',
+    name: isRTL ? 'فيسبوك' : 'Facebook',
     icon: <Facebook className="w-6 h-6" />,
     url: 'https://www.facebook.com/arabicwithenglish',
     color: 'bg-blue-600',
     textColor: 'text-white'
   }, {
-    name: 'YouTube',
+    name: isRTL ? 'يوتيوب' : 'YouTube',
     icon: <Youtube className="w-6 h-6" />,
     url: 'https://www.youtube.com/arabicwithenglish',
     color: 'bg-red-600',
     textColor: 'text-white'
   }, {
-    name: 'TikTok',
+    name: isRTL ? 'تيك توك' : 'TikTok',
     icon: <MessageCircle className="w-6 h-6" />,
     url: 'https://www.tiktok.com/@arabicwithenglish',
     color: 'bg-black',
     textColor: 'text-white'
   }, {
-    name: 'Snapchat',
+    name: isRTL ? 'سناب شات' : 'Snapchat',
     icon: <Camera className="w-6 h-6" />,
     url: 'https://www.snapchat.com/add/arabicwithenglish',
     color: 'bg-yellow-400',
     textColor: 'text-black'
   }];
-  return <Section background="gradient" paddingY="xl">
+  return <Section background="gradient" paddingY="xl" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-4xl mx-auto">
         <Link to="/" className="inline-flex items-center gap-2 mb-6 sm:mb-8 text-primary-600 dark:text-primary-400 hover:underline">
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
           <span className="text-sm sm:text-base">
             {isRTL ? 'العودة إلى الصفحة الرئيسية' : 'Back to home'}
           </span>

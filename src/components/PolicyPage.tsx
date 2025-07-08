@@ -10,25 +10,25 @@ export const PolicyPage = () => {
   const sections = [{
     icon: <Shield className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'جمع المعلومات' : 'Information Collection',
-    content: isRTL ? 'نحن نجمع المعلومات الشخصية التي تقدمها لنا طواعية عند التسجيل في موقعنا، بما في ذلك اسمك وعنوان بريدك الإلكتروني وتفضيلات التعلم.' : 'We collect personal information that you voluntarily provide to us when registering on our website, including your name, email address, and learning preferences.'
+    content: isRTL ? 'نحن نجمع المعلومات الشخصية التي تقدمها لنا طواعية عند التسجيل في موقعنا، بما في ذلك اسمك وعنوان بريدك الإلكتروني وتفضيلات التعلم الخاصة بك.' : 'We collect personal information that you voluntarily provide to us when registering on our website, including your name, email address, and learning preferences.'
   }, {
     icon: <Lock className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'حماية البيانات' : 'Data Protection',
-    content: isRTL ? 'نحن نستخدم تقنيات تشفير متقدمة لحماية معلوماتك الشخصية ونتبع أفضل ممارسات الأمان في الصناعة.' : 'We use advanced encryption technologies to protect your personal information and follow industry best practices for security.'
+    content: isRTL ? 'نحن نستخدم تقنيات تشفير متقدمة لحماية معلوماتك الشخصية ونتبع أفضل ممارسات الأمان في الصناعة. نحن نلتزم بحماية خصوصيتك وأمان بياناتك.' : 'We use advanced encryption technologies to protect your personal information and follow industry best practices for security. We are committed to protecting your privacy and data security.'
   }, {
     icon: <Eye className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'استخدام المعلومات' : 'Information Usage',
-    content: isRTL ? 'نستخدم معلوماتك لتحسين تجربة التعلم الخاصة بك وتخصيص المحتوى وفقًا لاحتياجاتك.' : 'We use your information to improve your learning experience and customize content according to your needs.'
+    content: isRTL ? 'نستخدم معلوماتك لتحسين تجربة التعلم الخاصة بك وتخصيص المحتوى وفقًا لاحتياجاتك. نحن لا نشارك معلوماتك الشخصية مع أي طرف ثالث دون موافقتك.' : 'We use your information to improve your learning experience and customize content according to your needs. We do not share your personal information with any third party without your consent.'
   }, {
     icon: <FileText className="w-6 h-6 text-primary-600 dark:text-primary-400" />,
     title: isRTL ? 'حقوقك' : 'Your Rights',
-    content: isRTL ? 'لديك الحق في الوصول إلى بياناتك الشخصية وتصحيحها وحذفها في أي وقت.' : 'You have the right to access, correct, and delete your personal data at any time.'
+    content: isRTL ? 'لديك الح�� في الوصول إلى بياناتك الشخصية وتصحيحها وحذفها في أي وقت. يمكنك أيضًا طلب نسخة من بياناتك أو الاعتراض على معالجتها.' : 'You have the right to access, correct, and delete your personal data at any time. You can also request a copy of your data or object to its processing.'
   }];
-  return <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-light-300 dark:from-dark-100 dark:via-dark-200 dark:to-dark-300">
+  return <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-light-300 dark:from-dark-100 dark:via-dark-200 dark:to-dark-300" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
         <div className="max-w-4xl mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 mb-6 sm:mb-8 text-primary-600 dark:text-primary-400 hover:underline">
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
             <span className="text-sm sm:text-base">
               {isRTL ? 'العودة إلى الصفحة الرئيسية' : 'Back to home'}
             </span>
@@ -54,7 +54,7 @@ export const PolicyPage = () => {
             </div>
             <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                {isRTL ? 'تم تحديث سياسة الخصوصية هذه في 15 مايو 2025. نحتفظ بالحق في تغيير هذه السياسة في أي وقت.' : 'This privacy policy was last updated on May 15, 2025. We reserve the right to change this policy at any time.'}
+                {isRTL ? 'تم تحديث سياسة الخصوصية هذه في 15 مايو 2025. نحتفظ بالحق في تغيير هذه السياسة في أي وقت. سيتم إخطارك بأي تغييرات جوهرية عبر البريد الإلكتروني أو من خلال إشعار على موقعنا.' : 'This privacy policy was last updated on May 15, 2025. We reserve the right to change this policy at any time. You will be notified of any significant changes via email or through a notice on our website.'}
               </p>
             </div>
           </div>
