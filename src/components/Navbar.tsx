@@ -28,7 +28,8 @@ export const Navbar = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 w-full">
           <div className="flex items-center justify-between h-full w-full">
             <div className="flex items-center gap-2 sm:gap-3">
-              <a href="/" className="flex items-center">
+              <a href="/" className="flex items-center gap-2">
+                <img src="/Frame_12472.png" alt="Arabic With English Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
                 <span className="text-base sm:text-lg md:text-xl font-bold">
                   <span className="text-accent-gold-DEFAULT">Arabic</span>
                   <span className="text-black dark:text-white">With</span>
@@ -76,13 +77,16 @@ export const Navbar = () => {
       {isMobileMenuOpen && <div className="fixed inset-0 z-50 bg-black/50 dark:bg-black/70" onClick={() => setIsMobileMenuOpen(false)}>
           <div className={`fixed top-0 ${isRTL ? 'right-0' : 'left-0'} w-3/4 h-full bg-white dark:bg-dark-200 shadow-xl p-4`} onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-6">
-              <span className="text-lg font-bold">
-                <span className="text-accent-gold-DEFAULT">Arabic</span>
-                <span className="text-black dark:text-white">With</span>
-                <span className="text-primary-600 dark:text-primary-400">
-                  English
+              <div className="flex items-center gap-2">
+                <img src="/Frame_12472.png" alt="Arabic With English Logo" className="w-8 h-8 object-contain" />
+                <span className="text-lg font-bold">
+                  <span className="text-accent-gold-DEFAULT">Arabic</span>
+                  <span className="text-black dark:text-white">With</span>
+                  <span className="text-primary-600 dark:text-primary-400">
+                    English
+                  </span>
                 </span>
-              </span>
+              </div>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2">
                 <X className="w-5 h-5" />
               </button>

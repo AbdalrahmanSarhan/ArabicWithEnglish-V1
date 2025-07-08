@@ -217,11 +217,11 @@ const WhySection = ({
           }}>
               <Sparkles className="w-5 h-5 text-primary-500 dark:text-primary-400" />
               <span className="text-sm font-medium text-primary-700 dark:text-primary-400">
-                {isRTL ? 'طريقة تعلم مبتكرة' : 'Learn Differently'}
+                {isRTL ? 'تعلم بطريقة مختلفة' : 'Learn Differently'}
               </span>
             </motion.div>
             <h2 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-400 dark:to-primary-500">
-              {isRTL ? 'لماذا تختار Arabic With English؟' : 'Why Arabic With English?'}
+              {isRTL ? 'لماذا Arabic With English؟' : 'Why Arabic With English?'}
             </h2>
           </motion.div>
           <div className="mb-24">

@@ -40,11 +40,11 @@ const WhySection = () => {
           }}>
               <Sparkles className="w-5 h-5 text-primary-500 dark:text-primary-400" />
               <span className="text-sm font-medium text-primary-700 dark:text-primary-400">
-                {isRTL ? 'طريقة تعلم مبتكرة ومختلفة' : 'Learn Differently'}
+                {isRTL ? 'تعلم بطريقة مختلفة' : 'Learn Differently'}
               </span>
             </motion.div>
             <h2 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-400 dark:to-primary-500">
-              {isRTL ? 'لماذا تختار Arabic With English؟' : 'Why ArabicWithEnglish?'}
+              {isRTL ? 'لماذا ArabicWithEnglish؟' : 'Why ArabicWithEnglish?'}
             </h2>
           </motion.div>
           <div className="mb-28">
@@ -155,39 +155,39 @@ export const ArabicWithEnglishLanding = () => {
   const features = [{
     icon: <Video className="w-6 h-6 text-primary-500 dark:text-primary-400" />,
     title: 'Video Lessons',
-    titleAr: 'دروس فيديو تفاعلية',
+    titleAr: 'دروس فيديو ممتعة',
     description: 'Learn through short videos explained in clear Arabic',
-    descriptionAr: 'تعلّم من خلال فيديوهات قصيرة مشروحة باللغة العربية الفصيحة بأسلوب سهل وممتع'
+    descriptionAr: 'تعلّم من خلال فيديوهات قصيرة مشروحة باللهجة العربية الفصيحة'
   }, {
     icon: <Users className="w-6 h-6 text-secondary-500 dark:text-secondary-400" />,
     title: 'Native Teachers',
-    titleAr: 'مدرّسون ناطقون باللغة الإنجليزية',
+    titleAr: 'مدرّسون نيتف',
     description: 'Professional teachers whose native language is English!',
-    descriptionAr: 'مدرّسون محترفون لغتهم الأم هي الإنجليزية لضمان تعلم النطق الصحيح!'
+    descriptionAr: 'مدرّسون محترفون لغتهم الأم إنجليزية!'
   }, {
     icon: <BookOpen className="w-6 h-6 text-accent-coral-DEFAULT dark:text-accent-coral-light" />,
     title: 'Structured Curriculum',
-    titleAr: 'منهج تعليمي متكامل ومنظم',
+    titleAr: 'خطة تعليمية منظمة',
     description: 'From basics to proficiency, step by step',
-    descriptionAr: 'من الأساسيات حتى الاحتراف، خطوة بخطوة بطريقة مدروسة ومتسلسلة'
+    descriptionAr: 'من الأساسيات حتى الاحتراف، خطوة بخطوة'
   }, {
     icon: <Award className="w-6 h-6 text-accent-amber-DEFAULT dark:text-accent-amber-light" />,
     title: 'Achievement Certificates',
-    titleAr: 'شهادات إنجاز معتمدة',
+    titleAr: 'شهادات إنجاز',
     description: 'Get a certified certificate upon completion of each level',
-    descriptionAr: 'احصل على شهادة معتمدة عند إنهاء كل مستوى تثبت مهاراتك في اللغة الإنجليزية'
+    descriptionAr: 'احصل على شهادة معتمدة عند إنهاء كل مستوى'
   }, {
     icon: <MessageCircle className="w-6 h-6 text-accent-emerald-DEFAULT dark:text-accent-emerald-light" />,
     title: 'Supportive Community',
-    titleAr: 'مجتمع داعم للتعلم',
+    titleAr: 'مجتمع داعم',
     description: 'Interact with students like you and practice with them on the platform',
-    descriptionAr: 'تفاعل مع طلاب مثلك وتدرّب معهم داخل المنصة لتعزيز مهاراتك في المحادثة'
+    descriptionAr: 'تفاعل مع طلاب مثلك وتدرّب معهم داخل المنصة'
   }, {
     icon: <BarChart2 className="w-6 h-6 text-accent-purple-DEFAULT dark:text-accent-purple-light" />,
     title: 'Track Progress',
-    titleAr: 'متابعة تقدمك بدقة',
+    titleAr: 'تابع تقدمك',
     description: 'Smart dashboard showing your level and how much left to reach your goal!',
-    descriptionAr: 'لوحة تحكم ذكية تعرض لك مستواك الحالي، وكم بقي لك لتحقيق هدفك بشكل دقيق!'
+    descriptionAr: 'لوحة تحكم ذكية تعرض لك مستواك، وكم بقي لك لتحقيق هدفك!'
   }];
   const containerVariants = {
     hidden: {
@@ -403,7 +403,7 @@ export const ArabicWithEnglishLanding = () => {
           }} transition={{
             duration: 0.7
           }}>
-              {isRTL ? 'لماذا تختار ArabicWithEnglish؟' : 'Why ArabicWithEnglish?'}
+              {isRTL ? 'لماذا ArabicWithEnglish؟' : 'Why ArabicWithEnglish?'}
             </motion.h2>
             <AnimatedLearningPath />
             <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mt-20" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{
@@ -702,6 +702,16 @@ export const ArabicWithEnglishLanding = () => {
       <footer className="bg-white/50 dark:bg-dark-200/50 backdrop-blur-sm py-8 border-t border-gray-200/50 dark:border-gray-700/30">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <img src="/Frame_12472.png" alt="Arabic With English Logo" className="w-10 h-10 object-contain" />
+              <span className="text-xl font-bold">
+                <span className="text-accent-gold-DEFAULT">Arabic</span>
+                <span className="text-black dark:text-white">With</span>
+                <span className="text-primary-600 dark:text-primary-400">
+                  English
+                </span>
+              </span>
+            </div>
             <div className="flex items-center justify-center space-x-4 rtl:space-x-reverse">
               <a href="https://www.instagram.com/arabicwithenglish" target="_blank" rel="noopener noreferrer" className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-lg hover:opacity-90 transition-opacity" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
