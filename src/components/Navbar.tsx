@@ -24,12 +24,12 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return <>
-      <nav className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-300 ${isScrolled ? theme === 'dark' ? 'bg-dark-200/90 backdrop-blur-md border-b border-dark-100/20' : 'bg-white/90 backdrop-blur-md border-b border-primary-100/30' : ''}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-300 ${isScrolled ? theme === 'dark' ? 'bg-dark-200/90 backdrop-blur-md border-b border-dark-100/20 shadow-md' : 'bg-white/90 backdrop-blur-md border-b border-primary-100/30 shadow-md' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 w-full">
           <div className="flex items-center justify-between h-full w-full">
             <div className="flex items-center gap-2 sm:gap-3">
               <a href="/" className="flex items-center gap-2">
-                <img src="/Frame_12472.png" alt="Arabic With English Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+                <img src="/Logo_%2811%29.png" alt="Arabic With English Logo" className={`w-8 h-8 sm:w-10 sm:h-10 object-contain ${theme === 'dark' ? 'filter brightness-110' : ''}`} />
                 <span className="text-base sm:text-lg md:text-xl font-bold">
                   <span className="text-accent-gold-DEFAULT">Arabic</span>
                   <span className="text-black dark:text-white">With</span>
@@ -38,12 +38,12 @@ export const Navbar = () => {
                   </span>
                 </span>
               </a>
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium bg-light-300 dark:bg-dark-100 text-primary-700 dark:text-primary-400 border border-light-400 dark:border-dark-100/50">
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium bg-light-300 dark:bg-dark-100/60 text-primary-700 dark:text-primary-400 border border-light-400 dark:border-dark-100/50 shadow-sm">
                 <BellIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary-600 dark:text-primary-400" />
                 {isRTL ? 'قريباً' : 'Coming Soon'}
               </span>
             </div>
-            <div className="hidden md:flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-primary-50/80 dark:bg-primary-900/30 border border-primary-200/50 dark:border-primary-700/30 backdrop-blur-sm">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-primary-50/80 dark:bg-primary-900/40 border border-primary-200/50 dark:border-primary-700/40 backdrop-blur-sm shadow-sm">
               <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-500 dark:text-primary-400" />
               <span className="text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 547+ {isRTL ? 'شخص في قائمة الانتظار' : 'People in Queue'}
@@ -74,37 +74,6 @@ export const Navbar = () => {
         </div>
       </nav>
       {/* Mobile Menu */}
-      {isMobileMenuOpen && <div className="fixed inset-0 z-50 bg-black/50 dark:bg-black/70" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className={`fixed top-0 ${isRTL ? 'right-0' : 'left-0'} w-3/4 h-full bg-white dark:bg-dark-200 shadow-xl p-4`} onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-2">
-                <img src="/Frame_12472.png" alt="Arabic With English Logo" className="w-8 h-8 object-contain" />
-                <span className="text-lg font-bold">
-                  <span className="text-accent-gold-DEFAULT">Arabic</span>
-                  <span className="text-black dark:text-white">With</span>
-                  <span className="text-primary-600 dark:text-primary-400">
-                    English
-                  </span>
-                </span>
-              </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <button onClick={() => {
-            setIsMobileMenuOpen(false);
-            const form = document.querySelector('#waitlist-form');
-            if (form) {
-              form.scrollIntoView({
-                behavior: 'smooth'
-              });
-            }
-          }} className="w-full py-2 bg-primary-600 text-white rounded-lg font-medium">
-                {isRTL ? 'انضم إلى قائمة الانتظار' : 'Join Waitlist'}
-              </button>
-            </div>
-          </div>
-        </div>}
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </>;
 };

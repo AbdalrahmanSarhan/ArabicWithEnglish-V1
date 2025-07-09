@@ -54,6 +54,7 @@ export const MobileMenu = ({
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b border-neutral-200/10 dark:border-dark-100/10">
             <div className="flex items-center gap-2">
+              <img src="/Logo_%2811%29.png" alt="Arabic With English Logo" className={`w-8 h-8 object-contain ${theme === 'dark' ? 'filter brightness-110' : ''}`} />
               <span className="text-xl font-bold">
                 <span className="text-accent-gold-DEFAULT">Arabic</span>
                 <span className="text-black dark:text-white">With</span>
@@ -61,7 +62,7 @@ export const MobileMenu = ({
                   English
                 </span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-light-300 dark:bg-dark-100 text-primary-700 dark:text-primary-400 border border-light-400 dark:border-dark-100/50">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-light-300 dark:bg-dark-100/60 text-primary-700 dark:text-primary-400 border border-light-400 dark:border-dark-100/50">
                 <Bell className="w-3.5 h-3.5 text-primary-600 dark:text-primary-400" />
                 {t('waitlist.comingSoon')}
               </span>
@@ -71,7 +72,7 @@ export const MobileMenu = ({
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="flex items-center gap-2 p-4 rounded-lg bg-primary-50/80 dark:bg-primary-900/30 backdrop-blur-sm mb-6 border border-primary-200/50 dark:border-primary-700/30">
+            <div className="flex items-center gap-2 p-4 rounded-lg bg-primary-50/80 dark:bg-primary-900/40 backdrop-blur-sm mb-6 border border-primary-200/50 dark:border-primary-700/40 shadow-sm">
               <Users className="w-5 h-5 text-primary-500 dark:text-primary-400" />
               <span className="font-medium text-neutral-800 dark:text-white">
                 547+ {t('waitlist.stats.inQueue')}

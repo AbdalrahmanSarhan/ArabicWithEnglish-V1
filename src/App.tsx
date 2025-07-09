@@ -8,6 +8,7 @@ import { ContactPage } from './components/ContactPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { PageLayout } from './components/layout/PageLayout';
 import { AdminPanel } from './components/admin/AdminPanel';
+import './styles/globals.css';
 export function App() {
   return <ThemeProvider>
       <LanguageProvider>
